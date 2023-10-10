@@ -1,4 +1,6 @@
-import os, json, folium
+import functions_json as fj
+import functions_pois as fp
+import functions_folium as ff
 
 def prompt_default():
     print('\nPlease select an option:\n'
@@ -6,45 +8,9 @@ def prompt_default():
           '\t2 - View current points of interest\n'
           '\t3 - Quit')
 
-if os.path.exists('location.json'):
-    with open('location.json', 'r', encoding='UTF-8') as file:
-        info_bound = json.load(file)
-        file.close()
-else:
-    with open('location.json', 'w', encoding='UTF-8') as file:
-        print('Please input map bounding information:')
-        bound_name = input('\tName of location: ')
-        bound_north = input('\tNorth: ')
-        bound_south = input('\tSouth: ')
-        bound_east = input('\tEast: ')
-        bound_west = input('\tWest: ')
+info_bound = fj.import_location()
 
-        info_bound = {'location': bound_name,
-                    'north': bound_north,
-                    'south': bound_south,
-                    'east': bound_east,
-                    'west': bound_west
-                    }
-
-        print('Saving location information to "location.json"')
-        info_json = json.dumps(info_bound)
-        file.write(info_json)
-        print('Location information successfully saved')
-        file.close()
-
-if os.path.exists('pois.json'):
-    with open('pois.json', 'r', encoding='UTF-8') as file:
-        pois = json.load(file)
-        file.close()
-else:
-    pois = {}
-
-poi_types = ['sightseeing',
-             'food',
-             'drink',
-             'accomodation',
-             'other'
-             ]
+pois = fj.import_pois()
 
 toggle_quit = False
 while not toggle_quit:
@@ -52,68 +18,15 @@ while not toggle_quit:
     response = input()
 
     if response == '1':
-        input_name = input('\nInput name of point of interest: ')
-        input_lat = input('Input latitude of point of interest: ')
-        input_long = input('Input longitude of point of interest: ')
-
-        print('Input type of point of interest:')
-        counter_type = 0
-        for type in poi_types:
-            print(f'\t{str(counter_type + 1)} - {poi_types[counter_type].title()}')
-            counter_type += 1
-        input_type = input()
-
-        info_poi = {'lat': input_lat,
-                    'long': input_long,
-                    'type': poi_types[int(input_type) - 1]
-                    }
-        pois[input_name] = info_poi
+        pois = fp.add_poi(pois)
     
     elif response == '2':
-        print(f'\nPoints of interest in {info_bound["location"]}')
-        for key, value in pois.items():
-            print(f'{key} ({value["type"]})')
-            print(f'\tLatitude: {value["lat"]}')
-            print(f'\tLongitude: {value["long"]}')
+        fp.view_poi(info_bound['location'], pois)
     
     elif response == '3':
-        print('Saving point of interest information to "pois.json"')
-        with open('pois.json', 'w', encoding='UTF-8') as file:
-            json_pois = json.dumps(pois)
-            file.write(json_pois)
-            print('Successfully saved point of interest information')
-            file.close()
+        fj.export_pois(pois)
 
-        print('\nMapping points of interest to "index.html"')
-        lat_avg = (float(info_bound['north']) + float(info_bound['south'])) / 2
-        long_avg = (float(info_bound['east']) + float(info_bound['west'])) / 2
-
-        map = folium.Map(location=(lat_avg, long_avg))
-        map.fit_bounds([[info_bound['north'], info_bound['west']],
-                        [info_bound['south'], info_bound['east']]])
-
-        icon_sight = folium.Icon(color='orange', icon='pushpin')
-        icon_food = folium.Icon(color='blue', icon='cutlery')
-        icon_drink = folium.Icon(color='red', icon='glass')
-        icon_accom = folium.Icon(color='green', icon='home')
-        icon_other = folium.Icon(color='pink', icon='heart')
-
-        for key, value in pois.items():
-            if value['type'] == 'sightseeing':
-                icon_curr = icon_sight
-            elif value['type'] == 'food':
-                icon_curr = icon_food
-            elif value['type'] == 'drink':
-                icon_curr = icon_drink
-            elif value['type'] == 'accomodation':
-                icon_curr = icon_accom
-            else:
-                icon_curr = icon_other
-            
-            folium.Marker(location = [value['lat'], value['long']],
-                          popup = key,
-                          icon=icon_curr
-                          ).add_to(map)
+        map = ff.add_markers(info_bound, pois)
             
         print('Saving mapped points of interest to "index.html"')
         map.save("index.html")
