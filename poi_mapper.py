@@ -1,26 +1,44 @@
-import folium
+import os, json, folium
 
 def prompt_default():
     print('\nPlease select an option:\n'
           '\t1 - Add new point of interest\n'
           '\t2 - View current points of interest\n'
           '\t3 - Quit')
-    
-print('Please input map bounding information:')
-bound_name = input('\tName of location: ')
-bound_north = input('\tNorth: ')
-bound_south = input('\tSouth: ')
-bound_east = input('\tEast: ')
-bound_west = input('\tWest: ')
 
-info_bound = {'location': bound_name,
-              'north': bound_north,
-              'south': bound_south,
-              'east': bound_east,
-              'west': bound_west
-              }
+if os.path.exists('location.json'):
+    with open('location.json', 'r', encoding='UTF-8') as file:
+        info_bound = json.load(file)
+        file.close()
+else:
+    with open('location.json', 'w', encoding='UTF-8') as file:
+        print('Please input map bounding information:')
+        bound_name = input('\tName of location: ')
+        bound_north = input('\tNorth: ')
+        bound_south = input('\tSouth: ')
+        bound_east = input('\tEast: ')
+        bound_west = input('\tWest: ')
 
-pois = {}
+        info_bound = {'location': bound_name,
+                    'north': bound_north,
+                    'south': bound_south,
+                    'east': bound_east,
+                    'west': bound_west
+                    }
+
+        print('Saving location information to "location.json"')
+        info_json = json.dumps(info_bound)
+        file.write(info_json)
+        print('Location information successfully saved')
+        file.close()
+
+if os.path.exists('pois.json'):
+    with open('pois.json', 'r', encoding='UTF-8') as file:
+        pois = json.load(file)
+        file.close()
+else:
+    pois = {}
+
 poi_types = ['sightseeing',
              'food',
              'drink',
@@ -59,6 +77,13 @@ while not toggle_quit:
             print(f'\tLongitude: {value["long"]}')
     
     elif response == '3':
+        print('Saving point of interest information to "pois.json"')
+        with open('pois.json', 'w', encoding='UTF-8') as file:
+            json_pois = json.dumps(pois)
+            file.write(json_pois)
+            print('Successfully saved point of interest information')
+            file.close()
+
         print('\nMapping points of interest to "index.html"')
         lat_avg = (float(info_bound['north']) + float(info_bound['south'])) / 2
         long_avg = (float(info_bound['east']) + float(info_bound['west'])) / 2

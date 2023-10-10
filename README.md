@@ -6,7 +6,7 @@ PoIs, and easier identification of PoIs on the fly (e.g. for nearby spots to
 sightsee, have lunch or dinner, or grab a drink).
 
 The PoI Mapper outputs an interactive map in HTML format to either locally
-store for offline access, or for hosting online as a static web page.
+store or host online as a web page.
 
 ## Dependencies
 
