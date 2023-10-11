@@ -7,7 +7,8 @@ def prompt_default():
           '\t1 - Add new point of interest\n'
           '\t2 - View current points of interest\n'
           '\t3 - Edit existing point of interest\n'
-          '\t4 - Quit')
+          '\t4 - Delete point of interest\n'
+          '\t5 - Quit')
 
 info_bound = fj.import_location()
 
@@ -29,6 +30,10 @@ while not toggle_quit:
         pois = fp.edit_poi(pois)
 
     elif response == '4':
+        fp.view_poi(info_bound['location'], pois)
+        pois = fp.delete_poi(pois)
+
+    elif response == '5':
         fj.export_pois(pois)
         map = ff.add_markers(info_bound, pois)
             

@@ -43,7 +43,7 @@ def edit_poi(pois: dict):
     edit_num = input('\nEnter number of point of interest to edit: ')
     edit_key = sorted(pois)[int(edit_num) - 1]
 
-    print(f'\nSelect variable to change for {edit_key}:\n'
+    print(f'\nSelect variable to change for "{edit_key}":\n'
             '\t1 - Name\n'
             '\t2 - Latitude\n'
             '\t3 - Longitude\n'
@@ -51,23 +51,23 @@ def edit_poi(pois: dict):
     edit_variable = input()
 
     if edit_variable == '1':
-        name_new = input(f'Enter new name for {edit_key}: ')
+        name_new = input(f'Enter new name for "{edit_key}": ')
         pois[name_new] = pois[edit_key]
         del pois[edit_key]
         print('Name successfully changed')
 
     elif edit_variable == '2':
-        lat_new = input(f'Enter new latitude value for {edit_key}: ')
+        lat_new = input(f'Enter new latitude value for "{edit_key}": ')
         pois[edit_key]['lat'] = lat_new
         print('Latitude successfully changed')
 
     elif edit_variable == '3':
-        long_new = input(f'Enter new longitude value for {edit_key}: ')
+        long_new = input(f'Enter new longitude value for "{edit_key}": ')
         pois[edit_key]['long'] = long_new
         print('Longitude successfully changed')
 
     elif edit_variable == '4':
-        print(f'Enter new type of point of interest for {edit_key}: ')
+        print(f'Enter new type of point of interest for "{edit_key}": ')
         view_poi_types()
         type_new = input()
         type_str = pull_poi_type(type_new)
@@ -77,4 +77,13 @@ def edit_poi(pois: dict):
     else:
         print('Invalid entry, please try again')
     
+    return pois
+
+def delete_poi(pois: dict):
+    del_num = input('\nEnter number of point of interest to delete: ')
+    del_key = sorted(pois)[int(del_num) - 1]
+
+    del pois[del_key]
+    print(f'Listing for "{del_key}" successfully deleted')
+
     return pois
