@@ -38,3 +38,8 @@ def add_markers(info_bound: dict, pois: dict):
                       ).add_to(map)
     
     return map
+
+def export_html(map):
+    print('Saving mapped points of interest to "index.html"')
+    map.save("index.html")
+    print('Mapping to "index.html" successful\n')

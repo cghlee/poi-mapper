@@ -15,8 +15,13 @@ def pull_poi_type(type_num: str):
 
 def add_poi(pois: dict):
     input_name = input('\nInput name of point of interest: ')
-    input_lat = input('Input latitude of point of interest: ')
-    input_long = input('Input longitude of point of interest: ')
+    input_lat = input('Input latitude (or with longitude, separated by comma): ')
+    if ',' in input_lat:
+        coord_split = input_lat.split(',')
+        input_lat = coord_split[0].strip()
+        input_long = coord_split[1].strip()
+    else:
+        input_long = input('Input longitude: ')
 
     print('Input type of point of interest:')
     view_poi_types()

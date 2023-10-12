@@ -8,7 +8,7 @@ def prompt_default():
           '\t2 - View current points of interest\n'
           '\t3 - Edit existing point of interest\n'
           '\t4 - Delete point of interest\n'
-          '\t5 - Quit')
+          '\t5 - Save and Quit')
 
 info_bound = fj.import_location()
 
@@ -36,10 +36,7 @@ while not toggle_quit:
     elif response == '5':
         fj.export_pois(pois)
         map = ff.add_markers(info_bound, pois)
-            
-        print('Saving mapped points of interest to "index.html"')
-        map.save("index.html")
-        print('Mapping to "index.html" successful\n')
+        ff.export_html(map)
         
         toggle_quit = True
         
