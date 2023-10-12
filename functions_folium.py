@@ -5,7 +5,7 @@ def select_icon(icon_type: str):
     icon_food = folium.Icon(color='blue', icon='cutlery')
     icon_drink = folium.Icon(color='red', icon='glass')
     icon_accom = folium.Icon(color='green', icon='home')
-    icon_other = folium.Icon(color='pink', icon='heart')
+    icon_other = folium.Icon(color='purple', icon='info-sign')
 
     if icon_type == 'sightseeing':
         icon = icon_sight

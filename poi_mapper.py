@@ -2,8 +2,9 @@ import functions_json as fj
 import functions_pois as fp
 import functions_folium as ff
 
-def prompt_default():
-    print('\nPlease select an option:\n'
+def prompt_default(loc: str):
+    print(f'\nCurrent location: {loc}\n'
+          'Please select an option:\n'
           '\t1 - Add new point of interest\n'
           '\t2 - View current points of interest\n'
           '\t3 - Edit existing point of interest\n'
@@ -16,7 +17,7 @@ pois = fj.import_pois()
 
 toggle_quit = False
 while not toggle_quit:
-    prompt_default()
+    prompt_default(info_bound['location'])
     response = input()
 
     if response == '1':

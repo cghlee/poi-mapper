@@ -14,6 +14,11 @@ def import_location():
             bound_east = input('\tEast: ')
             bound_west = input('\tWest: ')
 
+            if float(bound_north) < float(bound_south):
+                bound_north, bound_south = bound_south, bound_north
+            if float(bound_east) < float(bound_west):
+                bound_east, bound_west = bound_west, bound_east
+
             info_bound = {'location': bound_name,
                         'north': bound_north,
                         'south': bound_south,
@@ -40,7 +45,7 @@ def import_pois():
     return pois
 
 def export_pois(pois: dict):
-    print('Saving point of interest information to "pois.json"')
+    print('\nSaving point of interest information to "pois.json"')
     with open('pois.json', 'w', encoding='UTF-8') as file:
         json_pois = json.dumps(pois)
         file.write(json_pois)

@@ -33,6 +33,7 @@ def add_poi(pois: dict):
                 'type': type_str
                 }
     pois[input_name] = info_poi
+    print(f'{input_name} successfully added')
     
     return pois
 
