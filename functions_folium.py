@@ -1,5 +1,12 @@
+#! python3
+# Dependencies - Folium
+
+# functions_folium.py - Contains functions relating to the Folium module in
+# Python, for overall functionality of poi_mapper.py
+
 import folium
 
+# Select an appropriate Folium mapping icon based on type of PoI specified
 def select_icon(icon_type: str):
     icon_sight = folium.Icon(color='orange', icon='pushpin')
     icon_food = folium.Icon(color='blue', icon='cutlery')
@@ -20,8 +27,10 @@ def select_icon(icon_type: str):
     
     return icon
 
+# Use specified location and PoI data to generate a Folium map with PoI markers
 def add_markers(info_bound: dict, pois: dict):
     print('\nMapping points of interest to "index.html"')
+    # Generate a Folium map based upon provided location data
     lat_avg = (float(info_bound['north']) + float(info_bound['south'])) / 2
     long_avg = (float(info_bound['east']) + float(info_bound['west'])) / 2
 
@@ -29,6 +38,7 @@ def add_markers(info_bound: dict, pois: dict):
     map.fit_bounds([[info_bound['north'], info_bound['west']],
                     [info_bound['south'], info_bound['east']]])
     
+    # Map all specified PoIs onto the previously generated Folium map
     for key, value in pois.items():
         icon_curr = select_icon(value['type'])
         
@@ -39,6 +49,7 @@ def add_markers(info_bound: dict, pois: dict):
     
     return map
 
+# Export Folium map into an external HTML file
 def export_html(map):
     print('Saving mapped points of interest to "index.html"')
     map.save("index.html")
