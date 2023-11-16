@@ -1,0 +1,6 @@
+__pycache__
+.venv
+
+location.json
+pois.json
+index.html

@@ -5,9 +5,9 @@
 # (points of interest) at a specified location, with automated mapping of PoIs
 # onto an interactive map to be stored as HTML file.
 
-import functions_json as fj
-import functions_pois as fp
-import functions_folium as ff
+from src import functions_json as fj
+from src import functions_pois as fp
+from src import functions_folium as ff
 
 # Define repeated prompt text for the CLI-based interface
 def prompt_default(loc: str):

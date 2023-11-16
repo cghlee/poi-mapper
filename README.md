@@ -10,10 +10,11 @@ store or host online as a web page.
 
 ## Dependencies
 
-PoI Mapper requires the `Folium` module, with relevant documentation linked
-below:
+PoI Mapper requires the `Folium` module, which can be installed via `venv` and
+the `requirements.txt` file provided. Relevant documentation is linked below:
 
 - [Folium](https://pypi.org/project/folium/)
+- [venv](https://docs.python.org/3/library/venv.html)
 
 ## How to Use
 
